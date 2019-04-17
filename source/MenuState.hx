@@ -62,7 +62,7 @@ class MenuState extends FlxState
 
 	function goCredits()
 	{
-		//TODO 
+		FlxG.switchState(new CreditsState());
 	}
 
 	function quit()
