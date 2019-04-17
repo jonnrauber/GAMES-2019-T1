@@ -57,7 +57,7 @@ class MenuState extends FlxState
 
 	function goSettings()
 	{
-		//TODO 
+		FlxG.switchState(new SettingsState());
 	}
 
 	function goCredits()
