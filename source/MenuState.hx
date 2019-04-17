@@ -16,7 +16,8 @@ class MenuState extends FlxState
 
 	override public function create():Void
 	{
-		_title = new FlxText("Nutter Boss");
+		_title = new FlxText("GO TO WORK!");
+		//Do you see that ferrari? Work hard and you can help me buy it.
 		_title.size = 20;
 		_title.screenCenter();
 		_title.y = 100;
