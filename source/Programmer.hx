@@ -9,11 +9,13 @@ class Programmer extends Entity
 {
     var _timeToCoffee:Int;
     var _workLocation:FlxPoint;
+    var _workingState:Bool;
 
     public function new() {
         super();
         _timeToCoffee = 0;
         _workLocation = new FlxPoint(0, 0);
+        _workingState = true;
         this.loadGraphic(AssetPaths.programmer__png, true, 32, 32);
 		this.setFacingFlip(FlxObject.LEFT, true, false);
 		this.setFacingFlip(FlxObject.RIGHT, false, false);
@@ -64,5 +66,11 @@ class Programmer extends Entity
             200,
             FlxPath.FORWARD
         );
+    }
+
+    public function setWorkLocation(x:Int, y:Int):Void {
+        this.x = x - this.width/2;
+        this.y = y - this.height/2;
+        this._workLocation = new FlxPoint(x, y);
     }
 }
