@@ -28,26 +28,11 @@ class Programmer extends Entity
 
     override public function update(elapsed:Float):Void {
         super.update(elapsed);
-
-        if (FlxG.keys.pressed.LEFT) {
-            this.x -= 1;
-            this.animation.play("left");
-        }
-        if (FlxG.keys.pressed.RIGHT) {
-            this.x += 1;
-            this.animation.play("right");
-        }
-        if (FlxG.keys.pressed.UP) {
-            this.y -= 1;
-            this.animation.play("up");
-        }
-        if (FlxG.keys.pressed.DOWN) {
-            this.y += 1;
-            this.animation.play("down");
-        }
-
-
         _timeToCoffee += 1;
+
+        if (_timeToCoffee > 1000) {
+            goCoffee();
+        }
     }
 
     override public function onMessage(m:Message):Void {
@@ -56,13 +41,20 @@ class Programmer extends Entity
         if (m.op == Message.OP_GO_WORK) {
             goWork();
             this._timeToCoffee = 0;
-            FlxG.log.add("Recebeu uma chamada do chefe!");
         }
     }
 
     public function goWork():Void {
         this.path = new FlxPath().start(
             [_workLocation],
+            100,
+            FlxPath.FORWARD
+        );
+    }
+
+    public function goCoffee():Void {
+        this.path = new FlxPath().start(
+            [new FlxPoint(550, 320)],
             200,
             FlxPath.FORWARD
         );

@@ -25,7 +25,6 @@ class PlayState extends FlxState
 		_postOffice = new PostOffice();
 
 		_boss = new Boss();
-		_boss.makeGraphic(20, 20, 0xffff0000);
 		_boss.x = 80 - _boss.width/2;
 		_boss.y = 414 - _boss.height/2;
 		_boss.path = new FlxPath();
