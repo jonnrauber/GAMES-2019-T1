@@ -2,7 +2,6 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxState;
-import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 
@@ -12,7 +11,6 @@ class MenuState extends FlxState
     var _btnPlay:FlxButton;
     var _btnSettings:FlxButton;
     var _btnCredits:FlxButton;
-    var _btnQuit:FlxButton;
 
 	override public function create():Void
 	{
@@ -33,11 +31,6 @@ class MenuState extends FlxState
 		_btnCredits.screenCenter();
 		_btnCredits.y = _btnSettings.y + _btnSettings.height + 10;
 
-		_btnQuit = new FlxButton(0, 0, "QUIT", quit);
-		_btnQuit.screenCenter();
-		_btnQuit.y = _btnCredits.y + _btnCredits.height + 20;
-
-		add(_btnQuit);
 		add(_btnCredits);
 		add(_btnSettings);
 		add(_btnPlay);
@@ -65,10 +58,4 @@ class MenuState extends FlxState
 	{
 		FlxG.switchState(new CreditsState());
 	}
-
-	function quit()
-	{
-		Sys.exit(0);
-	}
-
 }
