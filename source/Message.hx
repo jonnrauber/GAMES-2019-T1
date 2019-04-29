@@ -6,10 +6,12 @@ class Message {
 
     public var from:Entity;
     public var to:Entity;
-    public var data:Float;
     public var op:Int;
 
-    public function new() {}
-
+    public function new(from:Entity, to:Entity, op:Int) {
+        this.from = from;
+        this.to = to;
+        this.op = op;
+    }
 
 }

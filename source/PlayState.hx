@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxVector;
 import flixel.math.FlxPoint;
 import flixel.util.FlxPath;
 import flixel.FlxG;
@@ -12,6 +13,7 @@ class PlayState extends FlxState
 	var _postOffice:PostOffice;
 	var _boss:Boss;
 	var _programmers:FlxTypedGroup<Programmer>;
+	var _warnings:FlxTypedGroup<Warning>;
 
 	var _navigationMap:FlxTilemap;
 	var _floorMap:FlxTilemap;
@@ -30,6 +32,7 @@ class PlayState extends FlxState
 
 		this.initializeMaps();
 		this.initializeProgrammers();
+		this.initializeWarnings();
 
 		add(_navigationMap);
 		add(_postOffice);
@@ -37,8 +40,9 @@ class PlayState extends FlxState
 		add(_wallMap);
 		add(_tablesMap);
 		add(_frontChairsMap);
-		add(_boss);
 		add(_programmers);
+		add(_boss);
+		add(_warnings);
 		super.create();
 	}
 
@@ -56,17 +60,39 @@ class PlayState extends FlxState
 			}
 		}
 
-		//If Boss collides to Programmer, Boss demands to Programmer to go work
-		for (p in _programmers) {
-			if (FlxG.overlap(_boss, p) && p._state != Programmer.WORKING_STATE) {
-				var m:Message = new Message();
-				m.from = _boss;
-				m.to = p;
-				m.op = Message.OP_GO_WORK;
-				m.data = 2;
-				_postOffice.send(m);
+		if (FlxG.mouse.justPressedRight) {
+			var w = _warnings.getFirstAvailable();
+			if (w != null) {
+				w.reset(_boss.x + (_boss.width + w.width)/2,
+					_boss.y + (_boss.height + w.height)/2);
+
+				var vel:FlxVector = new FlxVector(FlxG.mouse.x - w.x, FlxG.mouse.y - w.y);
+				vel.normalize();
+				vel.scale(300);
+
+				w.velocity.x = vel.x;
+				w.velocity.y = vel.y;
 			}
 		}
+
+		if (FlxG.keys.pressed.SPACE) {
+		//If Boss collides to Programmer, Boss demands to Programmer to go work
+			for (p in _programmers) {
+				if (FlxG.overlap(_boss, p) && p._state != Programmer.WORKING_STATE) {
+					var m:Message = new Message(_boss, p, Message.OP_GO_WORK);
+					_postOffice.send(m);
+				}
+				
+			}
+		}
+
+		FlxG.overlap(_warnings, _programmers, onOverlapWarning);
+	}
+
+	function onOverlapWarning(w:Entity, p:Entity):Void {
+		var m:Message = new Message(w, p, Message.OP_GO_WORK);
+		_postOffice.send(m);
+		w.kill();
 	}
 
 	function initializeProgrammers():Void {
@@ -116,5 +142,13 @@ class PlayState extends FlxState
 
 		_frontChairsMap = new FlxTilemap();
 		_frontChairsMap.loadMapFromCSV("assets/data/map_cadeiras_frente.csv", "assets/images/tileset_pc.png", 16, 16, 0, 1);
+	}
+	
+	function initializeWarnings():Void {
+		_warnings = new FlxTypedGroup<Warning>();
+        for (i in 0...3) {
+            var w = new Warning();
+            _warnings.add(w);
+        }
 	}
 }
