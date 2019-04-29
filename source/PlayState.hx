@@ -1,6 +1,5 @@
 package;
 
-import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.util.FlxPath;
 import flixel.FlxG;
@@ -59,7 +58,7 @@ class PlayState extends FlxState
 
 		//If Boss collides to Programmer, Boss demands to Programmer to go work
 		for (p in _programmers) {
-			if (FlxG.overlap(_boss, p)) {
+			if (FlxG.overlap(_boss, p) && p._state != Programmer.WORKING_STATE) {
 				var m:Message = new Message();
 				m.from = _boss;
 				m.to = p;
