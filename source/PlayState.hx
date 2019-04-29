@@ -68,7 +68,7 @@ class PlayState extends FlxState
 
 				var vel:FlxVector = new FlxVector(FlxG.mouse.x - w.x, FlxG.mouse.y - w.y);
 				vel.normalize();
-				vel.scale(300);
+				vel.scale(500);
 
 				w.velocity.x = vel.x;
 				w.velocity.y = vel.y;
@@ -77,22 +77,25 @@ class PlayState extends FlxState
 
 		if (FlxG.keys.pressed.SPACE) {
 		//If Boss collides to Programmer, Boss demands to Programmer to go work
-			for (p in _programmers) {
-				if (FlxG.overlap(_boss, p) && p._state != Programmer.WORKING_STATE) {
-					var m:Message = new Message(_boss, p, Message.OP_GO_WORK);
-					_postOffice.send(m);
-				}
-				
-			}
+			FlxG.overlap(_boss, _programmers, onOverlapBoss);
 		}
 
 		FlxG.overlap(_warnings, _programmers, onOverlapWarning);
 	}
 
-	function onOverlapWarning(w:Entity, p:Entity):Void {
-		var m:Message = new Message(w, p, Message.OP_GO_WORK);
-		_postOffice.send(m);
-		w.kill();
+	function onOverlapBoss(b:Boss, p:Programmer):Void {
+		if (p._state == Programmer.COFFEE_STATE) {
+			var m:Message = new Message(_boss, p, Message.OP_GO_WORK);
+			_postOffice.send(m);
+		}
+	}
+
+	function onOverlapWarning(w:Warning, p:Programmer):Void {
+		if (p._state == Programmer.MEMES_STATE) {
+			var m:Message = new Message(w, p, Message.OP_GO_WORK);
+			_postOffice.send(m);
+			w.kill();
+		}
 	}
 
 	function initializeProgrammers():Void {

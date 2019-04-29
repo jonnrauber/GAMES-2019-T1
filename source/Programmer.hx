@@ -1,7 +1,7 @@
 package;
 
-import flixel.util.FlxPath;
 import flixel.FlxG;
+import flixel.util.FlxPath;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 
@@ -11,13 +11,13 @@ class Programmer extends Entity
     public static inline var COFFEE_STATE = 1;
     public static inline var MEMES_STATE = 2;
 
-    var _timeToCoffee:Int;
+    var _timeToAway:Int;
     var _workLocation:FlxPoint;
-    public var _state:Int; //0: working, 1: coffee, 2: memes
+    public var _state:Int;
 
     public function new() {
         super();
-        _timeToCoffee = 0;
+        _timeToAway = 0;
         _workLocation = new FlxPoint(0, 0);
         _state = WORKING_STATE;
         this.loadGraphic(AssetPaths.programmer__png, true, 32, 32);
@@ -33,10 +33,18 @@ class Programmer extends Entity
 
     override public function update(elapsed:Float):Void {
         super.update(elapsed);
-        _timeToCoffee += 1;
 
-        if (this._state == WORKING_STATE  && this._timeToCoffee > 300) {
-            goCoffee();
+        if (this._state == WORKING_STATE) {
+            _timeToAway += 1;
+        }
+
+        if (this._timeToAway > 300) {
+            this._timeToAway = 0;
+            var goTo:Int = FlxG.random.int(1, 2);
+            if (goTo == COFFEE_STATE)
+                goCoffee();
+            else
+                lookForMemes();
         }
 
         if (this.path != null && this.path.active) {
@@ -63,16 +71,20 @@ class Programmer extends Entity
 
         if (m.op == Message.OP_GO_WORK) {
             goWork();
-            this._timeToCoffee = 0;
+            this._timeToAway = 0;
         }
     }
 
     public function goWork():Void {
-        this.path = new FlxPath().start(
-            [_workLocation],
-            100,
-            FlxPath.FORWARD
-        );
+        if (this._state == COFFEE_STATE) {
+            this.path = new FlxPath().start(
+                [_workLocation],
+                100,
+                FlxPath.FORWARD
+            );
+        } else {
+            this.alpha = 1.0;
+        }
         this._state = WORKING_STATE;
     }
 
@@ -83,6 +95,11 @@ class Programmer extends Entity
             FlxPath.FORWARD
         );
         this._state = COFFEE_STATE;
+    }
+
+    public function lookForMemes():Void {
+        this._state = MEMES_STATE;
+        this.alpha = 0.5;
     }
 
     public function setWorkLocation(x:Int, y:Int):Void {
