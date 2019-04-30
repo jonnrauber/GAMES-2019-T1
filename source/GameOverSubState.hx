@@ -1,6 +1,5 @@
 package;
 
-import flixel.util.FlxColor;
 import flixel.util.FlxAxes;
 import flixel.FlxG;
 import flixel.FlxSubState;

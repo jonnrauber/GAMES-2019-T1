@@ -46,7 +46,7 @@ class PlayState extends FlxState
 		this.initializeProgrammers();
 		this.initializeWarnings();
 
-		_gameOverSubState = new GameOverSubState(0x99000000);
+		_gameOverSubState = new GameOverSubState(0xBB000000);
 
 		add(_navigationMap);
 		add(_postOffice);
@@ -100,8 +100,14 @@ class PlayState extends FlxState
 		}
 
 		/* -- Keyboard event
+		 * ESC: pause game
 		 * Space: tell to programmer to go back work
 		 */
+		if (FlxG.keys.justPressed.ESCAPE) {
+			var pauseSubState = new PauseSubState(0x99000000);
+			openSubState(pauseSubState);
+		}
+
 		if (FlxG.keys.pressed.SPACE) {
 		//If Boss collides to Programmer, Boss demands to Programmer to go work
 			FlxG.overlap(_boss, _programmers, onOverlapBoss);
