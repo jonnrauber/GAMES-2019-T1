@@ -27,6 +27,8 @@ class PlayState extends FlxState
 	var _tablesMap:FlxTilemap;
 	var _frontChairsMap:FlxTilemap;
 
+	var _gameOverSubState:GameOverSubState;
+
 	override public function create():Void
 	{
 		_initialTime = Date.now().getTime();
@@ -43,6 +45,8 @@ class PlayState extends FlxState
 		this.initializeMaps();
 		this.initializeProgrammers();
 		this.initializeWarnings();
+
+		_gameOverSubState = new GameOverSubState(0x99000000);
 
 		add(_navigationMap);
 		add(_postOffice);
@@ -119,7 +123,8 @@ class PlayState extends FlxState
 		_HUD.updateHUD(Date.now().getTime() - _initialTime, _productivity);
 
 		if (this._productivity <= 0) {
-			//gameover	
+			_gameOverSubState._score = Date.now().getTime() - _initialTime;
+			openSubState(_gameOverSubState);
 		}
 	}
 
