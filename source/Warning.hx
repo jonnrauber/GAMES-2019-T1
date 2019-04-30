@@ -4,7 +4,9 @@ class Warning extends Entity
 {
     public function new() {
         super();
-        this.makeGraphic(5, 5, 0xffff0000);
+        this.loadGraphic(AssetPaths.warning__png, true, 32, 32);
+        this.scale.x = 0.75;
+        this.scale.y = 0.75;
         this.kill();
     }
 
