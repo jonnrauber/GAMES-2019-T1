@@ -18,6 +18,7 @@ class Boss extends Entity
         this.animation.add("left", [4,5,6,7], 20);
         this.animation.add("right", [8,9,10,11], 20);
         this.animation.add("up", [12,13,14,15], 20);
+        this.animation.add("idle", [0], 20);
     }
 
     override public function onMessage(m:Message):Void {
@@ -42,7 +43,7 @@ class Boss extends Entity
                 this.animation.play("up");
             }
         } else {
-            this.animation.stop();
+            this.animation.play("idle");
         }
     }
 }

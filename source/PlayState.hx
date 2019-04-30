@@ -11,9 +11,15 @@ import flixel.group.FlxGroup;
 class PlayState extends FlxState
 {
 	var _postOffice:PostOffice;
+
 	var _boss:Boss;
 	var _programmers:FlxTypedGroup<Programmer>;
 	var _warnings:FlxTypedGroup<Warning>;
+
+	var _HUD:HUD;
+
+	var _productivity:Int;
+	var _initialTime:Float;
 
 	var _navigationMap:FlxTilemap;
 	var _floorMap:FlxTilemap;
@@ -23,7 +29,11 @@ class PlayState extends FlxState
 
 	override public function create():Void
 	{
+		_initialTime = Date.now().getTime();
+		_productivity = 1000;
+
 		_postOffice = new PostOffice();
+		_HUD = new HUD();
 
 		_boss = new Boss();
 		_boss.x = 80 - _boss.width/2;
@@ -43,6 +53,7 @@ class PlayState extends FlxState
 		add(_programmers);
 		add(_boss);
 		add(_warnings);
+		add(_HUD);
 		super.create();
 	}
 
@@ -50,6 +61,10 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 
+		/* -- Mouse events 
+		 * Left click: moves boss
+		 * Right click: throws warning 
+		 */
 		if (FlxG.mouse.justPressed) {
 			var pathPoints:Array<FlxPoint> = _navigationMap.findPath(
 					FlxPoint.get(_boss.x + _boss.width/2, _boss.y + _boss.height/2),
@@ -59,7 +74,6 @@ class PlayState extends FlxState
 				_boss.path.start(pathPoints, 100, FlxPath.FORWARD);	
 			}
 		}
-
 		if (FlxG.mouse.justPressedRight) {
 			var w = _warnings.getFirstAvailable();
 			if (w != null) {
@@ -68,30 +82,56 @@ class PlayState extends FlxState
 
 				var vel:FlxVector = new FlxVector(FlxG.mouse.x - w.x, FlxG.mouse.y - w.y);
 				vel.normalize();
-				vel.scale(500);
+				vel.scale(100);
+
+				w.acceleration.x = vel.x;
+				w.acceleration.y = vel.y;
+
+				vel.scale(5);
 
 				w.velocity.x = vel.x;
 				w.velocity.y = vel.y;
+
 			}
 		}
 
+		/* -- Keyboard event
+		 * Space: tell to programmer to go back work
+		 */
 		if (FlxG.keys.pressed.SPACE) {
 		//If Boss collides to Programmer, Boss demands to Programmer to go work
 			FlxG.overlap(_boss, _programmers, onOverlapBoss);
 		}
 
 		FlxG.overlap(_warnings, _programmers, onOverlapWarning);
+
+		for (p in _programmers) {
+			switch (p._state) {
+				case Programmer.COFFEE_STATE:
+					this._productivity -= 3;
+					break;
+				case Programmer.MEMES_STATE:
+					this._productivity -= 2;
+					break;
+			}
+		}
+
+		_HUD.updateHUD(Date.now().getTime() - _initialTime, _productivity);
+
+		if (this._productivity <= 0) {
+			//gameover	
+		}
 	}
 
 	function onOverlapBoss(b:Boss, p:Programmer):Void {
-		if (p._state == Programmer.COFFEE_STATE) {
+		if (p._state == Programmer.COFFEE_STATE || p._state == Programmer.GOING_TO_COFFEE_STATE) {
 			var m:Message = new Message(_boss, p, Message.OP_GO_WORK);
 			_postOffice.send(m);
 		}
 	}
 
 	function onOverlapWarning(w:Warning, p:Programmer):Void {
-		if (p._state == Programmer.MEMES_STATE) {
+		if (p._state == Programmer.MEMES_STATE || p._state == Programmer.GOING_TO_MEMES_STATE) {
 			var m:Message = new Message(w, p, Message.OP_GO_WORK);
 			_postOffice.send(m);
 			w.kill();
