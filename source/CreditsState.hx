@@ -6,6 +6,12 @@ import flixel.FlxSprite;
 import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 
+/*
+* Instructions screen: 
+* - White Mouse Right Click and Left Click by icons8.com under CCA 3.0 license 
+* - Space Bar Key by orioniconlibrary.com
+*/
+
 class CreditsState extends FlxState {
     var _titulo:FlxText;
     var _subtituloProgramming:FlxText;
@@ -99,6 +105,14 @@ class CreditsState extends FlxState {
         add(_spriteHaxeFlixel);
         add(_btnVoltar);
         super.create();
+    }
+
+    override public function update(elapsed:Float):Void {
+        super.update(elapsed);
+
+        if (FlxG.keys.justPressed.ESCAPE) {
+            goMenu();
+        }
     }
 
     function goMenu():Void {
