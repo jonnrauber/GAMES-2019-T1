@@ -7,6 +7,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.tile.FlxTilemap;
 import flixel.group.FlxGroup;
+import flixel.util.FlxTimer;
 
 class PlayState extends FlxState
 {
@@ -19,7 +20,7 @@ class PlayState extends FlxState
 	var _HUD:HUD;
 
 	var _productivity:Int;
-	var _initialTime:Float;
+	public var _gameTime:FlxTimer;
 
 	var _navigationMap:FlxTilemap;
 	var _floorMap:FlxTilemap;
@@ -32,9 +33,11 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		var preGameSubState = new PreGameSubState(0xEE000000);
+		preGameSubState.closeCallback = startTimer;
 		openSubState(preGameSubState);
 
-		_initialTime = Date.now().getTime();
+		_gameTime = new FlxTimer().start(9999);
+		// _gameTime.active = false;
 		_productivity = 1000;
 
 		_postOffice = new PostOffice();
@@ -108,6 +111,8 @@ class PlayState extends FlxState
 		 */
 		if (FlxG.keys.justPressed.ESCAPE) {
 			var pauseSubState = new PauseSubState(0x99000000);
+			pauseSubState.openCallback = pauseTimer;
+			pauseSubState.closeCallback = startTimer;
 			openSubState(pauseSubState);
 		}
 
@@ -129,10 +134,10 @@ class PlayState extends FlxState
 			}
 		}
 
-		_HUD.updateHUD(Date.now().getTime() - _initialTime, _productivity);
+		_HUD.updateHUD(_gameTime.elapsedTime, _productivity);
 
 		if (this._productivity <= 0) {
-			_gameOverSubState._score = Date.now().getTime() - _initialTime;
+			_gameOverSubState._score = _gameTime.elapsedTime*1000;
 			openSubState(_gameOverSubState);
 		}
 	}
@@ -150,6 +155,14 @@ class PlayState extends FlxState
 			_postOffice.send(m);
 			w.kill();
 		}
+	}
+
+	function startTimer():Void {
+		_gameTime.active = true;
+	}
+
+	function pauseTimer():Void {
+		_gameTime.active = false;
 	}
 
 	function initializeProgrammers():Void {

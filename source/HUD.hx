@@ -51,6 +51,6 @@ class HUD extends FlxGroup {
 
     public function updateHUD(time:Float, productivity:Int):Void {
       _productivity.health = productivity;
-      _sprTime.text = DateTools.format(Date.fromTime(time), "%M:%S");
+      _sprTime.text = DateTools.format(Date.fromTime(time*1000), "%M:%S");
     }
 }
