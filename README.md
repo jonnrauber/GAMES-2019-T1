@@ -5,6 +5,7 @@ Available to play [>> HERE <<](https://jonnrauber.github.io/digital-games/)
 Author: Jonathan Terhorst Rauber \
 Reg. number (aka "nº de matrícula"): 1421101008
 
+![Game Screenshot](assets/images/github/screenshot.png)
 
 ## Summary
 
