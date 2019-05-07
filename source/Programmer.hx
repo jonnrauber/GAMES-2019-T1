@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.util.FlxPath;
+import flixel.util.FlxTimer;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 
@@ -15,9 +16,9 @@ class Programmer extends Entity
 
     public var _state:Int;
 
-    var _awayTimer:Float;
-    var _nextTimeToAway:Float;
-    var _memesTimer:Float;
+    public var _awayTimer:FlxTimer;
+    public var _memesTimer:FlxTimer;
+    
     static inline var NEXT_TIME_TO_MEMES = 3.0; //programmer takes 3 seconds to start watch memes
 
     var _workLocation:FlxPoint;
@@ -25,8 +26,9 @@ class Programmer extends Entity
     public function new() {
         super();
 
-        _awayTimer = Date.now().getTime();
-        _nextTimeToAway = randomAwayTime();
+        _awayTimer = new FlxTimer().start(randomAwayTime());
+        _awayTimer.active = false;
+        
         _state = WORKING_STATE;
 
         _workLocation = new FlxPoint(0, 0);
@@ -49,7 +51,7 @@ class Programmer extends Entity
         super.update(elapsed);
 
         if (this._state == WORKING_STATE) {
-            if ((Date.now().getTime() - this._awayTimer) > this._nextTimeToAway*1000) {
+            if (this._awayTimer.finished) {
                 var goTo:Int = FlxG.random.int(1, 2);
                 if (goTo == GOING_TO_COFFEE_STATE)
                     goCoffee();
@@ -58,7 +60,7 @@ class Programmer extends Entity
             }
 
         } else if (this._state == GOING_TO_MEMES_STATE) {
-            if ((Date.now().getTime() - this._memesTimer) > NEXT_TIME_TO_MEMES*1000) {
+            if (this._memesTimer.finished) {
                 watchMemes();
             }
         }
@@ -112,8 +114,7 @@ class Programmer extends Entity
             this.alpha = 1.0;
         }
         this._state = WORKING_STATE;
-        this._awayTimer = Date.now().getTime();
-        this._nextTimeToAway = randomAwayTime();
+        this._awayTimer = new FlxTimer().start(randomAwayTime());
     }
 
     public function goCoffee():Void {
@@ -126,7 +127,7 @@ class Programmer extends Entity
     }
 
     public function lookForMemes():Void {
-        this._memesTimer = Date.now().getTime();
+        this._memesTimer = new FlxTimer().start(NEXT_TIME_TO_MEMES);
         this._state = GOING_TO_MEMES_STATE;
         this.alpha = 0.66;
     }

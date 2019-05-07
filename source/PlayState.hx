@@ -36,8 +36,8 @@ class PlayState extends FlxState
 		preGameSubState.closeCallback = startTimer;
 		openSubState(preGameSubState);
 
-		_gameTime = new FlxTimer().start(9999);
-		// _gameTime.active = false;
+		_gameTime = new FlxTimer().start(Math.POSITIVE_INFINITY);
+		_gameTime.active = false;
 		_productivity = 1000;
 
 		_postOffice = new PostOffice();
@@ -159,10 +159,26 @@ class PlayState extends FlxState
 
 	function startTimer():Void {
 		_gameTime.active = true;
+
+		for (p in _programmers.members) {
+			if (p._state == Programmer.WORKING_STATE)
+				p._awayTimer.active = true;
+
+			if (p._state == Programmer.GOING_TO_MEMES_STATE)
+				p._memesTimer.active = true;
+		}
 	}
 
 	function pauseTimer():Void {
 		_gameTime.active = false;
+
+		for (p in _programmers.members) {
+			if (p._state == Programmer.WORKING_STATE)
+				p._awayTimer.active = false;
+				
+			if (p._state == Programmer.GOING_TO_MEMES_STATE)
+				p._memesTimer.active = false;
+		}
 	}
 
 	function initializeProgrammers():Void {
