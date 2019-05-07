@@ -6,14 +6,6 @@ import flixel.FlxSprite;
 import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 
-/*
-* Instructions screen: 
-* - White Mouse Right Click and Left Click by icons8.com under CCA 3.0 license 
-* - Space Bar Key by orioniconlibrary.com
-* Boss and Programmer in game:
-* - http://untamed.wild-refuge.net/rmxpresources.php?officepeople
-*/
-
 class CreditsState extends FlxState {
     var _titulo:FlxText;
     var _subtituloProgramming:FlxText;
@@ -61,8 +53,14 @@ class CreditsState extends FlxState {
         _subtituloArt.alignment = CENTER;
 
         _textoAutorArt = new FlxText(0,0,0, "");
-        _textoAutorArt.text += "Boss and Programmer sprites by Sithjester";
-        _textoAutorArt.text += "\nButtons and interface by @jonnrauber";
+        _textoAutorArt.text += "Boss and Programmer sprites by Sithjester\n(untamed.wild-refuge.net/rmxpresources)";
+        _textoAutorArt.text += "\n\nButtons and interface by @jonnrauber";
+        _textoAutorArt.text += "\n\nCaveat & Quicksand fonts by Google Fonts";
+        _textoAutorArt.text += "\n\nSpacebar key icon by orioniconlibrary.com";
+        _textoAutorArt.text += "\n\nRight & Left mouse click icon by 8icons.com";
+        _textoAutorArt.text += "\n\nInterior tileset 16x16 by Bonsaiheldin\n(opengameart.org/content/interior-tileset-16x16)";
+        _textoAutorArt.text += "\n\nOffice tileset by no2games\n(opengameart.org/content/office-space-tileset)";
+        _textoAutorArt.text += "\n\nEB's office tileset by GrandmaDeb on RPGMakerWeb";
         _textoAutorArt.antialiasing = true;
         _textoAutorArt.setFormat(AssetPaths.Quicksand_Regular__ttf, 14, 0xffffffff);
         _textoAutorArt.screenCenter();
