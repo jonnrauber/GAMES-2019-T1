@@ -10,97 +10,92 @@ import flixel.text.FlxText;
 * Instructions screen: 
 * - White Mouse Right Click and Left Click by icons8.com under CCA 3.0 license 
 * - Space Bar Key by orioniconlibrary.com
+* Boss and Programmer in game:
+* - http://untamed.wild-refuge.net/rmxpresources.php?officepeople
 */
 
 class CreditsState extends FlxState {
     var _titulo:FlxText;
     var _subtituloProgramming:FlxText;
     var _subtituloArt:FlxText;
-    var _subtituloMusic:FlxText;
     var _textoAutorProgramming:FlxText;
     var _textoAutorArt:FlxText;
-    var _textoAutorMusic:FlxText;
     var _textoHaxeFlixel:FlxText;
     var _spriteHaxeFlixel:FlxSprite;
     var _btnVoltar:FlxButton;
 
     override public function create():Void {
-        _titulo = new FlxText(0,0,0, "Credits", 20);
+        _titulo = new FlxText(0,0,0, "Credits");
+        _titulo.antialiasing = true;
+        _titulo.setFormat(AssetPaths.Caveat_Bold__ttf, 32, 0xffffffff);
         _titulo.x = (FlxG.width - _titulo.width)/2.;
         _titulo.y = FlxG.height/2 - _titulo.height;
         _titulo.moves = true;
         _titulo.velocity.y = -10;
 
-        _subtituloProgramming = new FlxText(0,0,0, "[Programming]", 13);
+        _subtituloProgramming = new FlxText(0,0,0, "[Programming]");
+        _subtituloProgramming.antialiasing = true;
+        _subtituloProgramming.setFormat(AssetPaths.Quicksand_Regular__ttf, 16, 0xffff0000);
         _subtituloProgramming.screenCenter();
-        _subtituloProgramming.y = _titulo.y + 30;
+        _subtituloProgramming.y = _titulo.y + _titulo.height + 30;
         _subtituloProgramming.moves = true;
         _subtituloProgramming.velocity.y = -10;
         _subtituloProgramming.alignment = CENTER;
-        _subtituloProgramming.color = 0xffff0000;
 
-        _textoAutorProgramming = new FlxText(0,0,0, "Jonathan T. Rauber", 10);
+        _textoAutorProgramming = new FlxText(0,0,0, "@jonnrauber");
+        _textoAutorProgramming.antialiasing = true;
+        _textoAutorProgramming.setFormat(AssetPaths.Quicksand_Regular__ttf, 14, 0xffffffff);
         _textoAutorProgramming.screenCenter();
-        _textoAutorProgramming.y = _subtituloProgramming.y + 15;
+        _textoAutorProgramming.y = _subtituloProgramming.y + _subtituloProgramming.height + 15;
         _textoAutorProgramming.moves = true;
         _textoAutorProgramming.velocity.y = -10;
         _textoAutorProgramming.alignment = CENTER;
 
-        _subtituloArt = new FlxText(0,0,0, "[Art]", 13);
+        _subtituloArt = new FlxText(0,0,0, "[Art]");
+        _subtituloArt.antialiasing = true;
+        _subtituloArt.setFormat(AssetPaths.Quicksand_Regular__ttf, 16, 0xff00ff00);
         _subtituloArt.screenCenter();
-        _subtituloArt.y = _textoAutorProgramming.y + 20;
+        _subtituloArt.y = _textoAutorProgramming.y + _textoAutorProgramming.height + 20;
         _subtituloArt.moves = true;
         _subtituloArt.velocity.y = -10;
         _subtituloArt.alignment = CENTER;
-        _subtituloArt.color = 0xff00ff00;
 
-        _textoAutorArt = new FlxText(0,0,0, "Jonathan T. Rauber", 10);
+        _textoAutorArt = new FlxText(0,0,0, "");
+        _textoAutorArt.text += "Boss and Programmer sprites by Sithjester";
+        _textoAutorArt.text += "\nButtons and interface by @jonnrauber";
+        _textoAutorArt.antialiasing = true;
+        _textoAutorArt.setFormat(AssetPaths.Quicksand_Regular__ttf, 14, 0xffffffff);
         _textoAutorArt.screenCenter();
-        _textoAutorArt.y = _subtituloArt.y + 15;
+        _textoAutorArt.y = _subtituloArt.y + _subtituloArt.height + 15;
         _textoAutorArt.moves = true;
         _textoAutorArt.velocity.y = -10;
         _textoAutorArt.alignment = CENTER;
 
-        _subtituloMusic = new FlxText(0,0,0, "[Music]", 13);
-        _subtituloMusic.screenCenter();
-        _subtituloMusic.y = _textoAutorArt.y + 20;
-        _subtituloMusic.moves = true;
-        _subtituloMusic.velocity.y = -10;
-        _subtituloMusic.alignment = CENTER;
-        _subtituloMusic.color = 0xff0000ff;
-
-        _textoAutorMusic = new FlxText(0,0,0, "Jonathan T. Rauber", 10);
-        _textoAutorMusic.screenCenter();
-        _textoAutorMusic.y = _subtituloMusic.y + 15;
-        _textoAutorMusic.moves = true;
-        _textoAutorMusic.velocity.y = -10;
-        _textoAutorMusic.alignment = CENTER;
-
-
         _spriteHaxeFlixel = new FlxSprite();
-        _textoHaxeFlixel = new FlxText(0,0,0, "Powered by HaxeFlixel", 10);
+        _spriteHaxeFlixel.antialiasing = true;
+        _textoHaxeFlixel = new FlxText(0,0,0, "Powered by HaxeFlixel");
+        _textoHaxeFlixel.setFormat(AssetPaths.Quicksand_Bold__ttf, 14, 0xff666666);
         _textoHaxeFlixel.x = (FlxG.width - _textoHaxeFlixel.width - _spriteHaxeFlixel.width)/2.;
-        _textoHaxeFlixel.y = _textoAutorMusic.y + 20;
+        _textoHaxeFlixel.y = _textoAutorArt.y + _textoAutorArt.height + 20;
         _textoHaxeFlixel.moves = true;
         _textoHaxeFlixel.velocity.y = -10;
         _textoHaxeFlixel.alignment = CENTER;
-        _textoHaxeFlixel.color = 0xff444444;
         
         _spriteHaxeFlixel.x = _textoHaxeFlixel.x + _textoHaxeFlixel.width + 5;
         _spriteHaxeFlixel.y = _textoHaxeFlixel.y;
         _spriteHaxeFlixel.velocity.y = -10;
 
         _btnVoltar = new FlxButton(0, 0, "Back", goMenu);
+        _btnVoltar.label.setFormat(AssetPaths.Quicksand_Regular__ttf, 14, 0xff000000);
+		_btnVoltar.loadGraphic(AssetPaths.generic_button__png, true, 176, 30);
         _btnVoltar.x = FlxG.width - _btnVoltar.width - 10;
         _btnVoltar.y = FlxG.height - _btnVoltar.height - 10;
 
         add(_titulo);
         add(_subtituloProgramming);
         add(_subtituloArt);
-        add(_subtituloMusic);
         add(_textoAutorProgramming);
         add(_textoAutorArt);
-        add(_textoAutorMusic);
         add(_textoHaxeFlixel);
         add(_spriteHaxeFlixel);
         add(_btnVoltar);

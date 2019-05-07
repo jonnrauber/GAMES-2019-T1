@@ -15,15 +15,20 @@ class PauseSubState extends FlxSubState {
     override public function create():Void {
         super.create();
 
-        _txtPause = new FlxText(0, 0, 0, "PAUSE GAME", 20);
+        _txtPause = new FlxText(0, 0, 0, "Pause Game", 20);
+        _txtPause.setFormat(AssetPaths.Quicksand_Regular__ttf, 20, 0xffffffff);
         _txtPause.screenCenter(FlxAxes.X);
         _txtPause.y = 100;
 
         _btnResume = new FlxButton(0, 0, "Resume", onResume);
+        _btnResume.label.setFormat(AssetPaths.Quicksand_Regular__ttf, 14, 0xff000000);
+		_btnResume.loadGraphic(AssetPaths.generic_button__png, true, 176, 30);
         _btnResume.screenCenter(FlxAxes.X);
         _btnResume.y = _txtPause.y + 100;
 
         _btnBackToMenu = new FlxButton(0, 0, "Leave to Menu", onBack);
+        _btnBackToMenu.label.setFormat(AssetPaths.Quicksand_Regular__ttf, 14, 0xff000000);
+		_btnBackToMenu.loadGraphic(AssetPaths.generic_button__png, true, 176, 30);
         _btnBackToMenu.screenCenter(FlxAxes.X);
         _btnBackToMenu.y = _btnResume.y + 50;
 
