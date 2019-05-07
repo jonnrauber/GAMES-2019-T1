@@ -31,6 +31,9 @@ class PlayState extends FlxState
 
 	override public function create():Void
 	{
+		var preGameSubState = new PreGameSubState(0xEE000000);
+		openSubState(preGameSubState);
+
 		_initialTime = Date.now().getTime();
 		_productivity = 1000;
 
