@@ -28,7 +28,6 @@ class PreGameSubState extends FlxSubState {
 
         _sprMemes = new FlxSprite();
         _sprMemes.loadGraphic(AssetPaths.instruction_memes__png);
-        _sprMemes.setGraphicSize(30, 50);
         _sprMemes.screenCenter(FlxAxes.X);
         _sprMemes.y = _txtPreGame.y + _txtPreGame.height + 20;
 
@@ -41,7 +40,6 @@ class PreGameSubState extends FlxSubState {
 
         _sprCoffee = new FlxSprite();
         _sprCoffee.loadGraphic(AssetPaths.instruction_coffee__png);
-        _sprCoffee.setGraphicSize(40, 50);
         _sprCoffee.screenCenter(FlxAxes.X);
         _sprCoffee.y = _txtPreGame2.y + _txtPreGame2.height + 20;
 
