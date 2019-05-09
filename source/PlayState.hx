@@ -16,6 +16,7 @@ class PlayState extends FlxState
 	var _boss:Boss;
 	var _programmers:FlxTypedGroup<Programmer>;
 	var _warnings:FlxTypedGroup<Warning>;
+	public static var _coffeePoints:FlxTypedGroup<CoffeePoint>;
 
 	var _HUD:HUD;
 
@@ -53,6 +54,7 @@ class PlayState extends FlxState
 		this.initializeMaps();
 		this.initializeProgrammers();
 		this.initializeWarnings();
+		this.initializeCoffeePoints();
 
 		_gameOverSubState = new GameOverSubState(0xBB000000);
 
@@ -210,6 +212,16 @@ class PlayState extends FlxState
 		_programmers.add(p7);
 	}
 
+	function initializeCoffeePoints():Void {
+		_coffeePoints = new FlxTypedGroup<CoffeePoint>();
+		var y = 260;
+		while(y <= 380) {
+			var cp = new CoffeePoint(550, y);	
+			_coffeePoints.add(cp);
+			y += 20;
+		}
+	}
+
 	function initializeMaps():Void {
 		_navigationMap = new FlxTilemap();
 		_navigationMap.loadMapFromCSV("assets/data/map_navmesh.csv", "assets/images/tileset_interior.png", 16, 16, 0, 1);
@@ -247,5 +259,14 @@ class PlayState extends FlxState
             var w = new Warning();
             _warnings.add(w);
         }
+	}
+
+	public static function getAvailableCoffeePoint() {
+		var cp = _coffeePoints.getFirstAlive();
+		if (cp != null) {
+			cp.kill();
+			return cp;
+		}
+		return new CoffeePoint(550, 340);
 	}
 }

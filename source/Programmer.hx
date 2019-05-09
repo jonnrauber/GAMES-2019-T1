@@ -22,6 +22,7 @@ class Programmer extends Entity
     static inline var NEXT_TIME_TO_MEMES = 3.0; //programmer takes 3 seconds to start watch memes
 
     var _workLocation:FlxPoint;
+    var _coffeePoint:CoffeePoint;
     
     public function new() {
         super();
@@ -43,6 +44,7 @@ class Programmer extends Entity
         this.animation.add("right", [8,9,10,11], 20);
         this.animation.add("up", [12,13,14,15], 20);
         this.animation.add("idle", [12], 20);
+        this.animation.add("coffee", [10], 20);
         
         this.animation.play("idle");
     }
@@ -68,6 +70,7 @@ class Programmer extends Entity
         if (this.path != null) {
             if (this.path.finished && this._state == GOING_TO_COFFEE_STATE) {
                 this._state = COFFEE_STATE;
+                this.animation.play("coffee");
                 this.path = null;
 
             } else if (this.path.active) {
@@ -105,11 +108,14 @@ class Programmer extends Entity
 
     public function goWork():Void {
         if (this._state == COFFEE_STATE || this._state == GOING_TO_COFFEE_STATE) {
-            this.path = new FlxPath().start(
-                [_workLocation],
-                100,
-                FlxPath.FORWARD
-            );
+            var _newCoffeePoint = new CoffeePoint(this._coffeePoint.x, this._coffeePoint.y);
+            if (PlayState._coffeePoints.replace(this._coffeePoint, _newCoffeePoint) != null) {
+                this.path = new FlxPath().start(
+                    [_workLocation],
+                    100,
+                    FlxPath.FORWARD
+                );
+            }
         } else {
             this.alpha = 1.0;
         }
@@ -118,8 +124,9 @@ class Programmer extends Entity
     }
 
     public function goCoffee():Void {
+        _coffeePoint = PlayState.getAvailableCoffeePoint();
         this.path = new FlxPath().start(
-            [new FlxPoint(550, 320)],
+            [new FlxPoint(_coffeePoint.x, _coffeePoint.y)],
             100,
             FlxPath.FORWARD
         );
