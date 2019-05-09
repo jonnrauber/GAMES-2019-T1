@@ -26,7 +26,9 @@ class PlayState extends FlxState
 	var _floorMap:FlxTilemap;
 	var _wallMap:FlxTilemap;
 	var _tablesMap:FlxTilemap;
+	var _coffeeMap:FlxTilemap;
 	var _frontChairsMap:FlxTilemap;
+	var _curtainsMap:FlxTilemap;
 
 	var _gameOverSubState:GameOverSubState;
 
@@ -54,12 +56,7 @@ class PlayState extends FlxState
 
 		_gameOverSubState = new GameOverSubState(0xBB000000);
 
-		add(_navigationMap);
 		add(_postOffice);
-		add(_floorMap);
-		add(_wallMap);
-		add(_tablesMap);
-		add(_frontChairsMap);
 		add(_programmers);
 		add(_boss);
 		add(_warnings);
@@ -123,7 +120,7 @@ class PlayState extends FlxState
 
 		FlxG.overlap(_warnings, _programmers, onOverlapWarning);
 
-		for (p in _programmers) {
+		for (p in _programmers.members) {
 			switch (p._state) {
 				case Programmer.COFFEE_STATE:
 					this._productivity -= 3;
@@ -224,10 +221,24 @@ class PlayState extends FlxState
 		_wallMap.loadMapFromCSV("assets/data/map_parede.csv", "assets/images/tileset_office.png", 16, 16, 0, 1);
 
 		_tablesMap = new FlxTilemap();
-		_tablesMap.loadMapFromCSV("assets/data/map_mesas.csv", "assets/images/tileset_interior.png", 16, 16, 0, 1);
+		_tablesMap.loadMapFromCSV("assets/data/map_mesas.csv", "assets/images/tileset_cafe.png", 16, 16, 0, 1);
 
 		_frontChairsMap = new FlxTilemap();
 		_frontChairsMap.loadMapFromCSV("assets/data/map_cadeiras_frente.csv", "assets/images/tileset_pc.png", 16, 16, 0, 1);
+
+		_coffeeMap = new FlxTilemap();
+		_coffeeMap.loadMapFromCSV("assets/data/map_cafe.csv", "assets/images/tileset_cafe.png", 16, 16, null, 0, 1);
+
+		_curtainsMap = new FlxTilemap();
+		_curtainsMap.loadMapFromCSV("assets/data/map_cortinas.csv", "assets/images/tileset_interior.png", 16, 16, null, 0, 1);
+
+		add(_navigationMap);
+		add(_floorMap);
+		add(_wallMap);
+		add(_tablesMap);
+		add(_frontChairsMap);
+		add(_coffeeMap);
+		add(_curtainsMap);
 	}
 	
 	function initializeWarnings():Void {
