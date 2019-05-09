@@ -34,8 +34,8 @@ class InstructionsState extends FlxState {
         _sprMouseLeft = new FlxSprite();
         _sprMouseLeft.loadGraphic(AssetPaths.mouse_left__png, false);
         _sprMouseLeft.setGraphicSize(48,48);
-        _sprMouseLeft.x = 50;
-        _sprMouseLeft.y = _resume.y + 80;
+        _sprMouseLeft.x = 140;
+        _sprMouseLeft.y = _resume.y + _resume.height + 30;
 
         _txtMouseLeft = new FlxText(0, 0, 0, "Moves boss");
         _txtMouseLeft.antialiasing = true;
@@ -46,7 +46,7 @@ class InstructionsState extends FlxState {
         _sprMouseRight = new FlxSprite();
         _sprMouseRight.loadGraphic(AssetPaths.mouse_right__png, false);
         _sprMouseRight.setGraphicSize(48,48);
-        _sprMouseRight.x = 50;
+        _sprMouseRight.x = 140;
         _sprMouseRight.y = _sprMouseLeft.y + _sprMouseLeft.height + 20;
 
         _txtMouseRight = new FlxText(0, 0, 0, "Throws warning to programmer");
@@ -58,7 +58,7 @@ class InstructionsState extends FlxState {
         _sprSpaceBar = new FlxSprite();
         _sprSpaceBar.loadGraphic(AssetPaths.spacebar__png, false);
         _sprSpaceBar.setGraphicSize(48,48);
-        _sprSpaceBar.x = 50;
+        _sprSpaceBar.x = 140;
         _sprSpaceBar.y = _sprMouseRight.y + _sprMouseRight.height + 20;
 
         _txtSpaceBar = new FlxText(0, 0, 0, "Order programmer to get back work");
